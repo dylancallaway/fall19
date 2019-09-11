@@ -328,7 +328,7 @@ GA_Failures
 close all
 clc
 
-GA_Times_trans = mean(GA_Times, 2)';
+GA_Times_trans = mean(GA_Times, 1)';
 figure
 hold on
 plot(GA_Times_trans)
@@ -338,3 +338,41 @@ xlabel('Number of Variables (#)')
 ylabel('Search Time (s)')
 legend('GA Times', 'Grid Search Times')
 hold off
+
+%% 4
+close all
+clc
+
+% The case with zero parents represents random guesses on the interval. It
+% does not perform well because it is essentially a poorly organized grid
+% search, with no way to keep memory of the good guesses.
+
+%% 5
+
+% There are effectively 2 metrics by which these algorithms can be
+% compared across. Speed (time to find a solution) and robustness (how likely that solution is to be the right one).
+
+% Grid search can find a solution quickly at the cost of robustness, as
+% shown in #10 of the Newton's method section. If ng were increased such
+% that each point in the grid had only 0.0001 between the next, it would
+% take a very long time to run, but would be able to find the minimum
+% within 0.00005.
+
+% Newton's method can be extremely fast and robust, converging quickly to
+% the correct minimum as long as some information about the function is
+% known beforehand (the approximate location of the global minimum).
+% However, if this information is not known, Newton's method can be
+% extremely unreliable due to it getting "stuck" on local extrema.
+
+% The genetic algorithm is a good balance between speed and robustness. It
+% can converge as quickly as Newton's, but does not get stuck on
+% local extrema due to the randomness of its initial guesses (like in a
+% grid search). However, it does not evaluate every guess, like a grid
+% search does, as it maintains some memory/information about previous
+% guesses, like Newton's method does by utilizing the Gradient and Hessian.
+
+% Furtheremore, some of these methods have limitations on the types of
+% functions that they can be used on. In particular, Newton's method requires that the
+% function be twice differentiable for the variables of interest. The other
+% two methods can be used on any function or set of dependent data.
+
