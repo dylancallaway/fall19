@@ -36,25 +36,29 @@ dv = 15;
 
 % initial positions of agents
 % each col is the position of the ith agent
-N_m = 15; % number of initial agents
+N_m = 1; % number of initial agents
 r_i(1, :) = linspace(-150, -110, N_m);
 r_i(2, :) = linspace(-10, 10, N_m);
 r_i(3, :) = linspace(-10, 10, N_m);
-r_i_init = r_i; % create init variable to reset for each run without changing initial conditions
 
 % initial positions of obstacles
 % each col is the position of the jth obstacle
-N_o = 25;
+N_o = 2;
 O_j(1:2, :) = -100 + 200 .* rand(2, N_o);
 O_j(3, :) = -10 + 20 .* rand(1, N_o);
-O_j_init = O_j; % create init variable to reset for each run without changing initial conditions
+O_j(1, :) = linspace(-100, 100, N_o);
+O_j(2, :) = linspace(-100, 100, N_o);
+O_j(3, :) = linspace(-10, 10, N_o);
 
 % initial positions of targets
 % each col is the position of the jth target
-N_t = 100;
+N_t = 2;
 T_j(1:2, :) = -100 + 200 .* rand(2, N_t);
 T_j(3, :) = -10 + 20 .* rand(1, N_t);
-T_j_init = T_j; % create init variable to reset for each run without changing initial conditions
+T_j(1, :) = linspace(-100, 100, N_t);
+T_j(2, :) = linspace(-100, 100, N_t);
+T_j(3, :) = linspace(-10, 10, N_t);
+
 
 %% Testing
 
@@ -62,4 +66,5 @@ T_j_init = T_j; % create init variable to reset for each run without changing in
 uav_func = @(W_mt, W_mo, W_mm, w_t1, w_t2, w_o1, w_o2, w_m1, w_m2, a_1, a_2, b_1, b_2, c_1, c_2) myUAV(N_m, N_t, N_o, r_i, O_j, T_j, W_mt, W_mo, W_mm, w_t1, w_t2, w_o1, w_o2, w_m1, w_m2, a_1, a_2, b_1, b_2, c_1, c_2);
 
 uav_func(W_mt, W_mo, W_mm, w_t1, w_t2, w_o1, w_o2, w_m1, w_m2, a_1, a_2, b_1, b_2, c_1, c_2)
-% [PI, Orig, Lambda] = myGenetic(uav_func, [0, 2], parents, G, S, dv)
+% [PI, Orig, Lambda] = myGenetic(uav_func, [0, 2], parents, G, S, dv);
+% PI(G, 1)

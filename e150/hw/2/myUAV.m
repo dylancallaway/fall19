@@ -4,6 +4,8 @@ fprintf("Starting UAV swarm simulation...\n");
 tic;
 
 % Static variables
+ndims = 3;
+
 % From Table 1
 A_i = 1; % m^2. agent characteristic area
 C_di = .25; % agent coefficient of drag
@@ -20,44 +22,101 @@ num_steps = length(time_steps); % time_step index iterator
 agent_sight = 5; % m. target mapping distance
 crash_range = 2; % m. agent collision distance
 
-% From Table 3
-w_1 = 70; % weight of mapping in net cost
-w_2 = 10; % weight of time usage in net cost
-w_3 = 20; % weight of agent losses in net cost
-
 % Initial conditions
-map_done = 0;
-all_agents_dead = 0;
 t = 1;
 v_i = zeros(3, N_m);
-ndims = 3;
+if isempty(O_j)
+    O_j = [NaN; NaN; NaN];
+end
+map_done = 0;
+all_agents_crashed = 0;
 
 while ( t < num_steps )
-    i = 1;
+    %     dmt_ij = [];
+    %     dmt_ij_temp = [];
+    %     nmt_ij = [];
+    %     nmt_bar_ij = [];
+    %     dmm_ij = [];
+    %     dmm_ij_temp = [];
+    %     nmm_ij = [];
+    %     nmm_bar_ij = [];
+    %     dmo_ij_temp = [];
+    %     dmo_ij = [];
+    %     nmo_ij = [];
+    %     nmo_bar_ij = [];
+    %     Nmt_i = [];
+    %     Nmo_i = [];
+    %     Nmm_i = [];
+    %     Ntot_i = [];
+    %     n_i = [];
+    %     nmt_ij_temp = [];
+    %     nmo_ij_temp = [];
+    %     nmm_ij_temp = [];
+    %     attraction = [];
+    %     repulsion = [];
     
-    dmt_ij = [];
-    nmt_ij = [];
-    nmt_bar_ij = [];
-    dmm_ij = [];
-    nmm_ij = [];
-    nmm_bar_ij = [];
-    dmo_ij = [];
-    nmo_ij = [];
-    nmo_bar_ij = [];
-    Nmt_i = [];
-    Nmo_i = [];
-    Nmm_i = [];
-    Ntot_i = [];
-    n_i = [];
-    
-    % Agent target interaction
+    %% Target mapping
     for d = 1:ndims
         dmt_ij_temp(:, :, d) = r_i(d, :) - T_j(d, :)'; % expanded subtraction
     end
     dmt_ij = vecnorm(dmt_ij_temp, 2, 3); % euclidean distance between ith agent and jth target
-    uncap_ind = ~logical(dmt_ij <= agent_sight)'; % check if target can be mapped
-    T_j = T_j(:, any(uncap_ind, 1)); % Keep only targets that have not been mapped
+    
+    % uncap_und is a N_m x N_t matrix where each col is the distance from
+    % the jth target to each of the agents. 1 x N_t vector where each col is logical
+    % wether or not that target should be kept (1 has been mapped)
+    cap_ind = all(logical(dmt_ij <= agent_sight)', 1); % check if target has been mapped
+    
+    % T_j is 3 x N_t here. Once a target is mapped, all its rows are NaN
+    T_j(:, cap_ind) = NaN; % NaN targets that have been mapped
+    %     dmt_ij(all(cap_ind, 1)', :) = NaN; % remove distances to mapped targets
+    
+    % Check map success criteria
+    if all(isnan(T_j))
+        map_done = 1;
+        break;
+    end
+    
+    %% Agent agent crashing
     for d = 1:ndims
+        dmm_ij_temp(:, :, d) = r_i(d, :) - r_i(d, :)'; % expanded subtraction
+    end
+    dmm_ij = vecnorm(dmm_ij_temp, 2, 3); % euclidean distance between ith agent and jth agent
+    dmm_ij(dmm_ij == 0) = Inf; % set agent self interaction to Inf so there are no false crashes due to 0 distance
+    
+    % row vector where each col is an agent that
+    % crashed
+    crash_ind_mm = all(logical(dmm_ij <= crash_range), 1); % get indices of all agents within crash range (N_m x N_m)
+    r_i(:, crash_ind_mm) = NaN; % NaN agents that have crashed
+    %     dmm_ij(:, all(crash_ind_mm, 1)) = NaN; % remove distances to crashed agents
+    
+    % check agents dead criteria
+    if all(isnan(r_i))
+        all_agents_dead = 1;
+        break;
+    end
+    
+    %% Agent obstacle crashing
+    for d = 1:ndims
+        dmo_ij_temp(:, :, d) = r_i(d, :) - O_j(d, :)'; % expanded subtraction
+    end
+    dmo_ij = vecnorm(dmo_ij_temp, 2, 3); % euclidean distance between ith agent and jth obstacle
+    % row vector where each col is an agent that
+    % crashed
+    crash_ind_mo = all(logical(dmo_ij <= crash_range), 1); % get indices of all agents within crash range (N_o x N_m)
+    r_i(:, crash_ind_mo) = NaN; % NaN agents that have crashed
+    %     dmo_ij(:, all(crash_ind_mo, 1)) = NaN; % remove distances to crashed agents
+    
+    % check agents dead criteria
+    if all(isnan(r_i))
+        all_agents_dead = 1;
+        break;
+    end
+    
+    %% Agent target interaction
+    for d = 1:ndims
+        % T_j is N_t x 1 here
+        % r_i is 1 x N_m here
+        % nmt_ij_temp is N_t x N_m (after ndims is N_t x N_m x ndims)
         nmt_ij_temp(:, :, d) = T_j(d, :)' - r_i(d, :);
     end
     nmt_ij = nmt_ij_temp ./ vecnorm(nmt_ij_temp, 2, 3); % unit vector between ith agent and jth target
@@ -65,105 +124,51 @@ while ( t < num_steps )
     repulsion = w_t2.*exp(-a_2.*dmt_ij);
     nmt_bar_ij = (attraction - repulsion).*nmt_ij; % cols are ith agent, rows are jth target, dims are [x, y, z]
     Nmt_i = sum(nmt_bar_ij, 1); % Agent total interaction vector with all targets
-    Nmt_i1 = reshape(Nmt_i, 15, 3)';
     
-    while ( i <= size(r_i, 2) )
-        agents_dead = 0;
-        
-        
-        % check if all targets are mapped
-        if size(T_j, 2) == 0
-            map_done = 1;
-            break;
-        end
-        
-        % Agent agent interaction
-        j = 1;
-        while ( j <= size(r_i, 2) )
-            if i == j
-                nmm_bar_ij{j, i} = [0; 0; 0];
-                j = j + 1;
-            else
-                dmm_ij(j, i) = norm( r_i(:, i) - r_i(:, j) ); % euclidean distance between ith agent and jth agent
-                if dmm_ij(j, i) <= crash_range
-                    if i > j
-                        r_i(:, i) = [];
-                        v_i(:, i) = [];
-                        r_i(:, j) = [];
-                        v_i(:, j) = [];
-                    else
-                        r_i(:, j) = [];
-                        v_i(:, j) = [];
-                        r_i(:, i) = [];
-                        v_i(:, i) = [];
-                    end
-                    agents_dead = 2;
-                    break;
-                else
-                    nmm_ij{j, i} = ( r_i(:, j) - r_i(:, i) ) ./ ( norm(r_i(:, j) - r_i(:, i)) ); % unit vector between ith agent and jth agent
-                    nmm_bar_ij{j, i} = ( w_m1 .* exp(-c_1.*dmm_ij(j, i)) - w_m2 .* exp(-c_2.*dmm_ij(j, i)) ) .* nmm_ij{j, i}; % interaction vector between ith agent and jth agent
-                    j = j + 1;
-                end
-            end
-        end
-        
-        if agents_dead == 2
-            % check if any agents are still alive
-            if size(r_i, 2) == 0
-                all_agents_dead = 1;
-                break;
-            end
-            continue;
-        end
-        
-        % Agent obstacle interaction
-        j = 1;
-        while ( j <= size(O_j, 2) )
-            dmo_ij(j, i) = norm( r_i(:, i) - O_j(:, j) ); % euclidean distance between ith agent and jth obstacle
-            if dmo_ij(j, i) <= crash_range
-                r_i(:, i) = [];
-                v_i(:, i) = [];
-                agents_dead = 1;
-                break;
-            else
-                nmo_ij{j, i} = ( O_j(:, j) - r_i(:, i) ) ./ ( norm(O_j(:, j) - r_i(:, i)) ); % unit vector between ith agent and jth obstacle
-                nmo_bar_ij{j, i} = ( w_o1 .* exp(-b_1.*dmo_ij(j, i)) - w_o2 .* exp(-b_2.*dmo_ij(j, i)) ) .* nmo_ij{j, i}; % interaction vector between ith agent and jth obstacle
-                j = j + 1;
-            end
-        end
-        
-        if agents_dead == 1
-            % check if any agents are still alive
-            if size(r_i, 2) == 0
-                all_agents_dead = 1;
-                break;
-            end
-            continue;
-        end
-        
-        % Each col is the interaction vector of the ith agent
-        
-        
-        % Agent obstacle total interaction vector
-        Nmo_i(:, i) = sum( [nmo_bar_ij{:}], 2 );
-        
-        % Agent agent total interaction vector
-        Nmm_i(:, i) = sum( [nmm_bar_ij{:}], 2 );
-        
-        % Total interaction for ith agent
-        Ntot_i(:, i) = W_mt .* Nmt_i(:, i) + W_mo .* Nmo_i(:, i) + W_mm .* Nmm_i(:, i);
-        
-        % Propulsive force direction vector
-        n_i(:, i) = Ntot_i(:, i) ./ norm(Ntot_i(:, i));
-        
-        i = i + 1;
+    % interaction vector for the ith agent and all targets
+    Nmt_i = reshape(Nmt_i, N_m, 3)'; % reshape so each col is an agent
+    
+    %% Agent agent interaction
+    for d = 1:ndims
+        % r_i is N_m x 1 here
+        % r_i is 1 x N_m here
+        % nmm_ij_temp is N_m x N_m (after ndims is N_m x N_m x ndims)
+        nmm_ij_temp(:, :, d) = r_i(d, :)' - r_i(d, :);
     end
+    nmm_ij = nmm_ij_temp ./ vecnorm(nmm_ij_temp, 2, 3); % unit vector between ith agent and jth agent
+    attraction = w_m1.*exp(-c_1.*dmm_ij);
+    repulsion = w_m2.*exp(-c_2.*dmm_ij);
+    nmm_bar_ij = (attraction - repulsion).*nmm_ij; % cols are ith agent, rows are jth agent, dims are [x, y, z]
+    nmm_bar_ij(isnan(nmm_bar_ij)) = 0; % set NaNs to 0 for sum
+    Nmm_i = sum(nmm_bar_ij, 1); % Agent total interaction vector with all other agents
     
-    % check stop criteria
-    if map_done || all_agents_dead
-        break;
+    % interaction vector for the ith agent and all other agents
+    Nmm_i = reshape(Nmm_i, N_m, 3)'; % reshape so each col is an agent
+    
+    %% Agent obstacle interaction
+    for d = 1:ndims
+        % O_j is N_o x 1 here
+        % r_i is 1 x N_m here
+        % nmm_ij_temp is O_j x N_m (after ndims is O_j x N_m x ndims)
+        nmo_ij_temp(:, :, d) = O_j(d, :)' - r_i(d, :);
     end
+    nmo_ij = nmo_ij_temp ./ vecnorm(nmo_ij_temp, 2, 3); % unit vector between ith agent and jth agent
+    attraction = w_o1.*exp(-b_1.*dmo_ij);
+    repulsion = w_o2.*exp(-b_2.*dmo_ij);
+    nmo_bar_ij = (attraction - repulsion).*nmo_ij; % cols are ith agent, rows are jth agent, dims are [x, y, z]
+    nmo_bar_ij(isnan(nmo_bar_ij)) = 0; % set NaNs to 0 for sum
+    Nmo_i = sum(nmo_bar_ij, 1); % Agent total interaction vector with all other agents
     
+    % interaction vector for the ith agent and all obstacles
+    Nmo_i = reshape(Nmo_i, N_m, 3)'; % reshape so each col is an agent
+    
+    %% Total interaction vector
+    Ntot_i = W_mt .* Nmt_i + W_mo .* Nmo_i + W_mm .* Nmm_i;
+    
+    %% Propulsive force vector
+    n_i = Ntot_i ./ vecnorm(Ntot_i, 2);
+    
+    %%
     % Each col is the ith agent
     F_pi = magF_pi .* n_i; % propulsive force on each agent
     F_di = .5 .* p_a .* C_di .* A_i .* norm(v_a - v_i) .* (v_a - v_i); % drag force on each agent
@@ -179,11 +184,16 @@ end
 % get final time taken
 t_final = time_steps(t);
 
+% From Table 3
+w_1 = 70; % weight of mapping in net cost
+w_2 = 10; % weight of time usage in net cost
+w_3 = 20; % weight of agent losses in net cost
+
 % Create cost function (eqn 27)
-Mstar = size(T_j, 2) / N_t; % fraction of unmapped targets
+Mstar = 1 - sum(isnan(T_j), 2) / N_t; % fraction of unmapped targets
 Tstar = t_final / t_f; % fraction of used time out of total time
-Lstar = (N_m - size(r_i, 2)) / N_m; % fraction of crashed agents out of initial agents
-cost = w_1*Mstar + w_2*Tstar + w_3*Lstar; % cost function
+Lstar = 1 - sum(isnan(r_i), 2) / N_m; % fraction of crashed agents out of initial agents
+cost = w_1*Mstar(1, 1) + w_2*Tstar + w_3*Lstar(1, 1); % cost function
 
 toc;
 fprintf("Done with UAV swarm simulation!\n")
