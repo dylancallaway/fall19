@@ -1,4 +1,4 @@
-function [PI, Orig, Lambda] = myGenetic(f, interval, parents, TOL_GA, G, S, dv)
+function [PI, Orig, Lambda] = myGenetic(f, interval, parents, G, S, dv)
 % Input parameters
 % parents: scalar, number of design strings to preserve and breed
 % TOL_GA: scalar, acceptable cost functon theshold to stop evolution
@@ -31,8 +31,8 @@ best_parents = zeros(dv, parents); % Preallocate best parents
 PI = zeros(G,S); % Preallocate PI
 Orig = zeros(G,S); % Preallocate Orig
 
+tic;
 for g = 1:G % For each generation
-    
     for s = 1:S % For each design vector (columns of pop)
         func_vals = num2cell(pop(:,s)); % Temp storage to pass into function as cell array
         raw_cost(s) =  f(func_vals{:}); % Calculate cost of each design in the population
@@ -56,11 +56,12 @@ for g = 1:G % For each generation
     % Add parents, children, and random to a new generation. Creates a dv x S matrix where each column is a design
     pop = [best_parents, children, randi(100*interval, [dv, S-2*parents])/100];
     
-    % If the best design is within the tolerance for finding the global min
-    % (only works if global min is 0)
-    if sorted_cost(1)<TOL_GA
-        break
-    end
+%     % If the best design is within the tolerance for finding the global min
+%     % (only works if global min is 0)
+%     if sorted_cost(1)<TOL_GA
+%         break
+%     end
+myProgressBar(toc, g, G);
 end
 
 Lambda = pop'; % % Assign correct output names per project
