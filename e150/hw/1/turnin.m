@@ -25,6 +25,9 @@ hold off
 %% 3
 %% 4
 %% 5
+
+% In file called myNewton.m
+
 %% 6
 close all
 clear
