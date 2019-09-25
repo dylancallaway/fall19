@@ -1,0 +1,88 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage{indentfirst}
+\usepackage{amsmath}
+\usepackage{bm}
+
+\begin{document}
+
+\title{Project 2 Report}
+\author{Dylan Callaway}
+\date{Engineering 150 \\ Fall 2019}
+\maketitle
+
+\pagenumbering{roman}
+\tableofcontents
+\newpage
+\pagenumbering{arabic}
+
+\section{Introduction}
+The scenario being modeled in this project is that of 15 unmanned aerial vehicles (UAVs) that navigate through a three-dimensional (3D) field of 25 randomly placed obstacles in order to map the location of 100 randomly placed targets. The UAVs motion is governed by physical laws and several control equations. The aim of this project is to determine the optimal parameters of the control equations using a genetic algorithm to perform the optimization.
+
+This paper will provide an introduction to the physical laws, control algorithm, and the optimization method used. It will then outline the procedure for running the simulation, as well as any pertinent results that followed.
+
+
+\section{Background and Theory}
+The dynamics of each of the UAVs is modeled using the following relationships in a 3D, fixed Cartesian coordinate system where $x_i$ is some state variable of the $i^{th}$ agent (denoted by the subscript $i$).
+
+\subsection{Physical Laws}
+The kinematics of the UAVs can be expressed as a function of the kinetics in the following manner\footnote{State variables without the $0$ superscript vary over time as in $x_i(t)$. However, $(t)$ is left out for brevity.}:
+\begin{center}
+$\bm{a}_i = \frac{\bm{\Psi}^{tot}_i}{m_i}$ \quad where \quad $\bm{\Psi}^{tot}_i = \bm{F}^d_i +\bm{F}^p_i$
+\end{center}
+ is the total force, $m_i$ is the mass, and $\bm{a}_i$ is the resultant acceleration. $\bm{F}^d_i$, the drag force, is a function of $\bm{v}_i$, the velocity, and $\bm{F}^p_i$, the propulsive force, is a function of the control algorithm outlined in the following section.
+ 
+ The position, $\bm{r}_i$, and the velocity, $\bm{v}_i$, can be determined for each UAV according to the definitions of position, velocity, and acceleration in Cartesion coordinates and the UAV's initial conditons, expressed as $\bm{v}_i^0$ and $\bm{r}_i^0$ for velocity and position, respectively.
+ \begin{center}
+$\bm{v}_i = \bm{v}_i^0 + \int_{0}^{t}{\bm{a}_i dt}$ \quad and \quad $\bm{r}_i = \bm{r}_i^0 + \int_{0}^{t}{\bm{v}_i dt}$
+\end{center}
+ 
+\subsection{Control Algorithm}
+As shown in the previous section, the acceleration of the UAVs is determined in part by $\bm{F}^p_i$, which is defined as follows:
+\begin{center}
+$\bm{F}^p_i = F^p_i\bm{n}^*_i$
+\end{center}
+where $F^p_i$ is a constant scalar and $\bm{n}^*_i$ is a unit vector determined by the control algorithm.
+
+For each $i^{th}$ UAV the Euclidean distance is calculated to each $j^{th}$ other UAV, target, and obstacle according to the following equation, where $x \in \{m, t, o\}$, respectively:
+\begin{center}
+$\bm{d}^{mx}_{ij} = \bm{r}_i - \bm{r}^x_j$
+\\~\\
+$d^{mx}_{ij} = ||\bm{d}^{mx}_{ij}|| = \sqrt{(r_{i,1} - r^x_{j,1})^2 + (r_{i,2} - r^x_{j,2})^2 + (r_{i,3} - r^x_{j,3})^2}$
+\end{center}
+
+The unit vector between the $i^{th}$ UAV and $j^{th}$ UAV, target, or obstacle is then given as:
+\begin{center}
+$\bm{n}^{mx}_{ij} = \frac{\bm{d}^{mx}_{ij}}{d^{mx}_{ij}}$
+\end{center}
+
+From $d^{mx}_{ij}$ and $\bm{n}^{mx}_{ij}$ the interaction vector, $\hat{\bm{n}}^{mx}_{ij}$, can be determined according to:
+\begin{center}
+$\hat{\bm{n}}^{mx}_{ij} = \bm{n}^{mx}_{ij} (\eta^{mx}_{ij} - \epsilon^{mx}_{ij})$
+\\~\\
+where
+\\~\\
+$\eta^{mx}_{ij} = w_{x, 1}e^{-q_1d^{mx}_{ij}}
+\quad and \quad 
+\epsilon^{mx}_{ij} = w_{x, 2}e^{-q_2d^{mx}_{ij}}$
+
+\end{center}
+
+
+\subsection{Optimization Method}
+
+
+\section{Procedure and Methods}
+
+
+\section{Results and Discussion}
+
+
+\section{Conclusion}
+
+
+\section{Appendix}
+
+
+
+
+\end{document}

@@ -5,23 +5,6 @@ clc
 dbstop if error
 format compact
 
-% Test weights
-% w_t1 = 1;
-% w_t2 = 2;
-% a_1 = .1;
-% a_2 = 1;
-% w_o1 = 0;
-% w_o2 = 2;
-% b_1 = .1;
-% b_2 = 2;
-% w_m1 = .5;
-% w_m2 = .5;
-% c_1 = 1;
-% c_2 = 1;
-% W_mt = 2;
-% W_mo = .5;
-% W_mm = 1;
-
 % From Table 1
 dt = .2; % s. time step size
 t_f = 60; % s. maximum task time
@@ -38,9 +21,9 @@ dv = 15;
 % initial positions of agents
 % each col is the position of the ith agent
 N_m = 15; % number of initial agents
-r_i(1, :) = linspace(-140, -110, N_m);
-r_i(2, :) = [-8, -8, -8, -4, -4, -4, 0, 0, 4, 4, 4, 8, 8, 8, 8];
-r_i(3, :) = [-8, -8, -8, -4, -4, -4, 0, 0, 4, 4, 4, 8, 8, 8, 8];
+r_i(1, :) = [-110, -110, -110, -110, -110, -120, -120, -120, -120, -120, -130, -130, -130, -130, -130];
+r_i(2, :) = linspace(-10, 10, N_m);
+r_i(3, :) = linspace(-10, 10, N_m);
 
 % initial positions of obstacles
 % each col is the position of the jth obstacle
