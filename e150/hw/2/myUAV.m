@@ -161,7 +161,7 @@ while ( t < num_steps )
     % Each col is the ith agent
     F_pi = magF_pi .* n_i; % propulsive force on each agent
     v_i(isnan(v_i)) = 0;
-    F_di = .5 .* p_a .* C_di .* A_i .* norm(v_a - v_i) .* (v_a - v_i); % drag force on each agent
+    F_di = .5 .* p_a .* C_di .* A_i .* vecnorm(v_a - v_i) .* (v_a - v_i); % drag force on each agent
     F_t = F_pi + F_di; % sum forces (neglect gravity)
     a_i = F_t ./ m_i; % calculate current acceleration of each agent
     
@@ -198,7 +198,7 @@ Lstar = sum(isnan(r_i), 2) / N_m; % fraction of crashed agents out of initial ag
 Mstar = Mstar(1, 1);
 Lstar = Lstar(1, 1);
 cost = w_1*Mstar + w_2*Tstar + w_3*Lstar; % cost function
-% fprintf("Unmapped: %.2f\nTime used: %.2f\nCrashed: %.2f\n\n", Mstar, Tstar, Lstar);
+fprintf("Unmapped: %.2f\nTime used: %.2f\nCrashed: %.2f\n\n", Mstar, Tstar, Lstar);
 
 % fprintf("Done with UAV swarm simulation!\n");
 end
