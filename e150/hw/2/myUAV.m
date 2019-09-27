@@ -1,4 +1,4 @@
-function [cost] = myUAV(plot_flag, N_m, N_t, N_o, r_i, O_j, T_j, W_mt, W_mo, W_mm, w_t1, w_t2, w_o1, w_o2, w_m1, w_m2, a_1, a_2, b_1, b_2, c_1, c_2)
+function [cost, Tstar, Lstar, Mstar] = myUAV(plot_flag, N_m, N_t, N_o, r_i, O_j, T_j, W_mt, W_mo, W_mm, w_t1, w_t2, w_o1, w_o2, w_m1, w_m2, a_1, a_2, b_1, b_2, c_1, c_2)
 % Simulation
 % fprintf("Starting UAV swarm simulation...\n");
 tic;
@@ -193,12 +193,12 @@ w_3 = 20; % weight of agent losses in net cost
 
 % Create cost function (eqn 27)
 Mstar = 1 - sum(isnan(T_j), 2) / N_t; % fraction of unmapped targets
-Tstar = t_final / t_f; % fraction of used time out of total time
+Tstar = w_2 * t_final / t_f; % fraction of used time out of total time
 Lstar = sum(isnan(r_i), 2) / N_m; % fraction of crashed agents out of initial agents
-Mstar = Mstar(1, 1);
-Lstar = Lstar(1, 1);
-cost = w_1*Mstar + w_2*Tstar + w_3*Lstar; % cost function
-fprintf("Unmapped: %.2f\nTime used: %.2f\nCrashed: %.2f\n\n", Mstar, Tstar, Lstar);
+Mstar = w_1.*Mstar(1, 1);
+Lstar = w_3.*Lstar(1, 1);
+cost = Mstar + Tstar + Lstar; % cost function
+% fprintf("Unmapped: %.2f\nTime used: %.2f\nCrashed: %.2f\n\n", Mstar, Tstar, Lstar);
 
 % fprintf("Done with UAV swarm simulation!\n");
 end

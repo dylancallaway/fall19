@@ -4,6 +4,6 @@
 \contentsline {subsection}{\numberline {0.2.2}Control Algorithm}{3}% 
 \contentsline {section}{\numberline {0.3}Procedure and Methods}{4}% 
 \contentsline {subsection}{\numberline {0.3.1}Optimization Parameters}{4}% 
-\contentsline {section}{\numberline {0.4}Results and Discussion}{5}% 
-\contentsline {section}{\numberline {0.5}Conclusion}{5}% 
-\contentsline {section}{\numberline {0.6}Appendix}{5}% 
+\contentsline {section}{\numberline {0.4}Results and Discussion}{6}% 
+\contentsline {section}{\numberline {0.5}Conclusion}{9}% 
+\contentsline {section}{\numberline {0.6}Appendix}{9}% 

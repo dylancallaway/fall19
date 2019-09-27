@@ -111,9 +111,9 @@ ylabel("Cost Component")
 %%
 close all
 figure;
-par_mstar = mean(Mstars(:, 1:parents), 2);
-par_tstar = mean(Tstars(:, 1:parents), 2);
-par_lstar = mean(Lstars(:, 1:parents), 2);
+par_mstar = mean(Mstars(:, 1:parents), 2)
+par_tstar = mean(Tstars(:, 1:parents), 2)
+par_lstar = mean(Lstars(:, 1:parents), 2)
 
 plot(par_mstar)
 hold on
@@ -126,14 +126,14 @@ ylabel("Cost Component")
 %%
 close all
 figure;
-all_mstar = mean(Mstars, 2);
-all_tstar = mean(Tstars, 2);
-all_lstar = mean(Lstars, 2);
+all_mstar = mean(Mstars, 2)
+all_tstar = mean(Tstars, 2)
+all_lstar = mean(Lstars, 2)
 
-plot(all_mstar)
+plot(alll_mstar)
 hold on
-plot(all_tstar)
-plot(all_lstar)
+plot(par_tstar)
+plot(par_lstar)
 legend("M*", "T*", "L*")
 xlabel("Generation")
 ylabel("Cost Component")

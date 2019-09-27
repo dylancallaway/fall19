@@ -1,6 +1,5 @@
 \documentclass[a4paper,12pt]{report}
-\usepackage{amsmath, bm}
-\usepackage{graphicx}
+\usepackage{float, amsmath, bm, graphicx, numprint}
 
 \begin{document}
 
@@ -92,18 +91,50 @@ In this implementation of the simulation, the mapped targets and crashed UAVs ar
 There are many ways to place the agents that yield good results. Ultimately, the agents ended up being place is a vertical grid on the -X side of the simulation area. This positioned them far enough from eachother so as to not crash or interact too intensely and increased the likelihood that they did not all move to the same targets.
 
 \section{Results and Discussion}
+
+\begin{figure}[H]
+  \includegraphics[width=\linewidth]{results1.eps}
+  \caption{Various Costs vs. Generation.}
+\end{figure}
+
+Figure 1 shows the cost of the best design from the genetic algorithm converging to about 7. Most of the parent designs have a cost of a similar value. Something interesting to note is that after about 25 generations, the overall population cost is relatively constant. This is because once the parents are all optimal, they no longer continually reduce the overall average cost, and the other designs for each generation are simply random.
+
+\begin{figure}[H]
+  \includegraphics[width=\linewidth]{results2a.eps}
+  \caption{Best Design Cost Component vs. Generation.}
+\end{figure}
+
+
+
+\begin{figure}[H]
+  \includegraphics[width=\linewidth]{results2b.eps}
+  \caption{Mean Parental Design Cost Component vs. Generation.}
+\end{figure}
+
+\begin{figure}[H]
+  \includegraphics[width=\linewidth]{results2c.eps}
+  \caption{Mean Overall Design Cost Component vs. Generation.}
+\end{figure}
+
+\begin{table}[H]
+\caption{Design Parameters and Cost of the Best Designs}
 \resizebox{\textwidth}{!}{
-\begin{tabular}{c| c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c}
+\begin{tabular}{c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c}
  Design & $\Pi$ & $\Lambda_1$ & $\Lambda_2$ & $\Lambda_3$ & $\Lambda_4$ & $\Lambda_5$ & $\Lambda_6 $& $\Lambda_7 $& $\Lambda_8$& $\Lambda_9$& $\Lambda_{10}$& $\Lambda_{11}$& $\Lambda_{12}$& $\Lambda_{13}$& $\Lambda_{14}$& $\Lambda_{15}$ \\ 
  \hline
  \hline
- 1 & 8.5 & .716 & 1.17 & .822 & .991 & .806 & 1.34& .415 & .164&  .615 & .291 & .910 & 1.08 &  .832  & 1.35 & 1.11  \\  
- 2 & 8.5 & .716 & 1.17 & .822 & .991 & .806 & 1.34& .415 & .164&  .615 & .291 & .910 & 1.08 &  .832  & 1.35 & 1.11  \\  
- 3 & 8.5 & .716 & 1.17 & .822 & .991 & .806 & 1.34& .415 & .164&  .615 & .291 & .910 & 1.08 &  .832  & 1.35 & 1.11  \\  
- 4 & 8.5 & .716 & 1.17 & .822 & .991 & .806 & 1.34& .415 & .164&  .615 & .291 & .910 & 1.08 &  .832  & 1.35 & 1.11  \\  
+1 & 6.667 & 1.388 & 0.268 & 1.435 & 0.757 & 0.735 & 0.214 & 0.485 & 0.740 & 0.878 & 0.089 & 1.655 & 1.864 & 0.674 & 1.003 & 0.267   \\  
+ 
+2 & 6.733 & 1.389 & 0.277 & 1.435 & 0.761 & 0.742 & 0.215 & 0.486 & 0.740 & 0.882 & 0.092 & 1.648 & 1.863 & 0.673 & 1.003 & 0.273   \\  
+ 
+3 & 6.733 & 1.388 & 0.272 & 1.435 & 0.759 & 0.738 & 0.214 & 0.486 & 0.740 & 0.879 & 0.090 & 1.652 & 1.864 & 0.674 & 1.003 & 0.270  \\  
+ 
+4 & 7.067 & 1.389 & 0.275 & 1.435 & 0.760 & 0.741 & 0.214 & 0.486 & 0.740 & 0.881 & 0.091 & 1.650 & 1.863 & 0.674 & 1.003 & 0.272 \\  
 \end{tabular}
 }
+\end{table}
 
+As can be seen in Table 1, there is very little variation in the parameters of the top four designs. None of the parameters are negative because the genetic algorithm only searches on the interval $[0, 2]$. Some of the parameters are nearly 0, and some are nearly 2. For these values, setting the near 0 ones to 0, and increasing the interval for the ones near 2 may yield better performance, as that seems like what the simulations wants, anyways.
 
 \section{Conclusion}
 
