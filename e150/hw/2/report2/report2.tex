@@ -1,5 +1,5 @@
 \documentclass[a4paper,12pt]{report}
-\usepackage{float, amsmath, bm, graphicx, numprint}
+\usepackage{float, amsmath, bm, graphicx, numprint, multicol, caption}
 
 \begin{document}
 
@@ -17,6 +17,10 @@
 \tableofcontents
 \newpage
 \pagenumbering{arabic}
+
+\newenvironment{nscenter}
+ {\setlength{\topsep}{0ex}\trivlist\item\relax\centering}
+ {\endtrivlist}
 
 \section{Introduction}
 The scenario being modeled in this project is that of 15 unmanned aerial vehicles (UAVs) that navigate through a three-dimensional (3D) field of 25 randomly placed obstacles in order to map the location of 100 randomly placed targets. The UAVs motion is governed by physical laws and several control equations. The aim of this project is to determine the optimal parameters of the control equations using a genetic algorithm to perform the optimization.
@@ -78,7 +82,7 @@ This completes the determination of $\bm{F}_i^p$ which affects the UAVs motion b
 There were several parameters in the control algorithm that were left undefined in the previous section. These parameters are scalar values in the range $[0, 2]$. The goal of the optimization is to find parameters that allow the UAVs to map as many targets as possible, with as few crashes as possible, in as short a time as possible. In order to perform the optimization, these goals are translated into the following cost function:
 $$\Pi = w_1M^* + w_2T^* + w_3L^* \qquad w_1 = 70 \quad w_2 = 10 \quad w_3 = 20$$
 $$ M^* = \frac{(Unmapped\ targets)}{(Total\ targets)} \qquad T^* = \frac{(Used\ time)}{(Max\ time)} \qquad L^* = \frac{(Crashed\ UAVs)}{(Initial\ UAVs)}$$
-This cost function provides feedback on the key parameters of the problem, and weighs them in a logical way, wherein mapping the targets in the primary goal. It is also easily tune-able if, for example, the UAVs were expensive and you did not want to lose any of them due to crashing you could increase the weight placed on $L^*$.
+This cost function provides feedback on the key parameters of the problem, and weighs them in a logical way, wherein mapping the targets is the primary goal. It is also easily tune-able if, for example, the UAVs were expensive and you did not want to lose any of them due to crashing you could increase the weight placed on $L^*$. 
 
 This type of problem, which by inspection can be seen to have several local extrema, is not well suited to being solved by gradient based methods which may converge to said local extrema instead of the global minima. It may be possible to use a broader search method, like grid search, and then perform gradient based optimization, but that takes significantly longer then a genetic algorithm like that used here. The genetic algorithm is a good choice because it simultaneously searches a large solution space, while converging to an optimal solution. In problems with many design variables, 15 in this case, that drastically reduces the time required to compute a solution compared to methods that do these steps one after the other.
 
@@ -91,30 +95,37 @@ In this implementation of the simulation, the mapped targets and crashed UAVs ar
 There are many ways to place the agents that yield good results. Ultimately, the agents ended up being place is a vertical grid on the -X side of the simulation area. This positioned them far enough from eachother so as to not crash or interact too intensely and increased the likelihood that they did not all move to the same targets.
 
 \section{Results and Discussion}
-
 \begin{figure}[H]
-  \includegraphics[width=\linewidth]{results1.eps}
-  \caption{Various Costs vs. Generation.}
+\begin{nscenter}
+  \includegraphics[width=0.5\linewidth]{results1.eps}
+  \caption{Various Weighted Costs vs. Generation.}
+  \end{nscenter}
 \end{figure}
-
 Figure 1 shows the cost of the best design from the genetic algorithm converging to about 7. Most of the parent designs have a cost of a similar value. Something interesting to note is that after about 25 generations, the overall population cost is relatively constant. This is because once the parents are all optimal, they no longer continually reduce the overall average cost, and the other designs for each generation are simply random.
-
 \begin{figure}[H]
-  \includegraphics[width=\linewidth]{results2a.eps}
-  \caption{Best Design Cost Component vs. Generation.}
+\begin{nscenter}
+  \includegraphics[width=0.5\linewidth]{results2a.eps}
+  \caption{Best Weighted Design Cost Component vs. Generation.}
+    \end{nscenter}
 \end{figure}
-
-
-
+\noindent
+An interesting thing to note in Figure 2 is that $w_1M^*$ drops the most quickly. This is because $w_1 = 70$ while the other two weights are less than half of that, causing $M^*$ to really drive the optimization. There are even some iterations where $w_2T^*$ or $w_3L^*$ increase while $w_1M^*$ decreases with the overall cost decreasing.
 \begin{figure}[H]
-  \includegraphics[width=\linewidth]{results2b.eps}
-  \caption{Mean Parental Design Cost Component vs. Generation.}
+\begin{nscenter}
+  \includegraphics[width=0.5\linewidth]{results2b.eps}
+  \caption{Mean Parental Weighted Design Cost Component vs. Generation.}
+    \end{nscenter}
 \end{figure}
-
+\noindent
+Figure 3 demonstrates a similar phenomena as Figure 2, with $w_1m^*$ again decreasing most sharply for the parent designs. In plain English it can be thought of as the genetic algorithm selecting parents first for things that prevents $M^*$ increasing, and then after that is largely taken care of, worrying about the other traits of a given design. This is evidenced by the fact that $w_3L^*$ continues to decrease up to the $100^{th}$ generation. $w_1M^*$ and $w_2T^*$ have essentially converged to their final values by generation 40 or 50, but $w_3L^*$ continues to decrease and the parameters made more optimal. $L^*$ is the fraction of agents that have crashed, and $w_3 = 20$ is greater than $w_3$, but less than $w_1$, so it is interesting that altering the parameters causes this cost component to continually fall while the others are constant.
 \begin{figure}[H]
-  \includegraphics[width=\linewidth]{results2c.eps}
-  \caption{Mean Overall Design Cost Component vs. Generation.}
+\begin{nscenter}
+  \includegraphics[width=0.5\linewidth]{results2c.eps}
+  \caption{Mean Overall Weighted Design Cost Component vs. Generation.}
+    \end{nscenter}
 \end{figure}
+\noindent
+Like in Figure 1, once the parents have essentially converged, the overall population cost is relatively high and constant due to most of the population being random at that point, and few random guesses being more optimal than the already highly optimized parents.
 
 \begin{table}[H]
 \caption{Design Parameters and Cost of the Best Designs}
@@ -134,13 +145,44 @@ Figure 1 shows the cost of the best design from the genetic algorithm converging
 }
 \end{table}
 
+\noindent
 As can be seen in Table 1, there is very little variation in the parameters of the top four designs. None of the parameters are negative because the genetic algorithm only searches on the interval $[0, 2]$. Some of the parameters are nearly 0, and some are nearly 2. For these values, setting the near 0 ones to 0, and increasing the interval for the ones near 2 may yield better performance, as that seems like what the simulations wants, anyways.
 
-\section{Conclusion}
+\pagebreak
+Below is a series of plots of the UAV swarm 8 seconds apart, each. The first is the starting formation, and the last is the formation right as the final target is mapped.
 
+\begin{figure}[H]
+\minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{uav0.eps}
+  \caption{UAV swarm at $t = 0$.}
+    \endminipage\hfill
+  \minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{uav40.eps}
+  \caption{UAV swarm at $t = 8$.}
+    \endminipage\hfill
+  \minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{uav80.eps}
+  \caption{UAV swarm at $t = 16$.}
+    \endminipage\hfill
+  \minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{uav120.eps}
+  \caption{UAV swarm at $t = 24$.}
+    \endminipage\hfill
+  \minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{uav160.eps}
+  \caption{UAV swarm at $t = 32$.}
+    \endminipage\hfill
+  \minipage{0.5\textwidth}
+  \includegraphics[width=\linewidth]{uav200.eps}
+  \caption{UAV swarm at $t = 40$.}
+    \endminipage
+\end{figure}
+
+\section{Conclusion}
+This project aimed to find optimal parameters for UAV swarm target mapping. The dynamics of the UAVs was modeled and integrated using the Forward Euler method, a control algorithm with exponentially decaying influence on drone motion with respect to Euclidean distance was implemented, and a genetic algorithm was used to perform the optimization of said control algorithm's parameters. The final result is a set of control parameters that allow the mapping to be carried out with zero loss of UAVs, 100\% of targets mapped, and a final run time of only 40 seconds.
 
 \section{Appendix}
-
+Appendix is empty.
 
 
 

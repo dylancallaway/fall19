@@ -167,7 +167,8 @@ while ( t < num_steps )
     
     %% Plotting
     if (plot_flag)
-        if t == 1 || mod(t, 40) == 0 || t == 200
+        if mod(t, 30) == 0
+          
             scatter3(r_i(1, :), r_i(2, :), r_i(3, :), 'b', 'filled');
             hold on
             scatter3(T_j(1, :), T_j(2, :), T_j(3, :), 'g', 'filled');
@@ -177,7 +178,6 @@ while ( t < num_steps )
             xlabel("X")
             ylabel("Y")
             zlabel("Z")
-            legend("UAVs", "Targets", "Obstacles")
             drawnow
             pause(0.02)
         end
