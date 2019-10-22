@@ -1,8 +1,8 @@
-function [cost] = myPrinter2(theta_dot, delta_v_d)
+function [cost] = myPrinter2(theta_dot, delta_v_d, plots)
 t0 = tic;
 
 % init variables defined in problem
-T = 1;
+T = 3;
 dt = .001;
 N_t = T/dt; % number of time steps
 N_e = N_t; % number of droplets
@@ -75,79 +75,62 @@ t_release = t;
 F_e = repmat(F_grav, N_t, 1);
 a_e = F_e/m_e;
 
-%     stopped_drops = repmat(r_e(:,2)<=0, 1, 3);
-%     r_e(~stopped_drops) = r_e(~stopped_drops) + dt*v_e(~stopped_drops);
-%     v_e(~stopped_drops) = v_e(~stopped_drops) + dt*a_e(~stopped_drops);
-%     v_e(stopped_drops) = 0;
-%     a_e(stopped_drops) = 0;
-
-%     land_check = ~(stopped_drops == last_stopped_drops);
-%     t_land(n,1) = 0;
-%     t_land(land_check(:,1)) = t;
-%
-%     last_stopped_drops = [stopped_drops; 0, 0, 0];
-
 r_0_y = r_e_release(:,2);
 v_0_y = v_e_release(:,2);
 a_e_y = a_e(:,2);
 
-% t_land_delta = (-v_0_y + sqrt( v_0_y.^2 - 2.*a_e_y.*r_0_y )) ./ (a_e_y);
 tof = (-v_0_y - sqrt( v_0_y.^2 - 2.*a_e_y.*r_0_y )) ./ (a_e_y);
 
-t_land = t_release + tof;
-landed = t_land<=T;
-tof(~landed) = max(t_land) - t_land(~landed);
-
+% t_land = t_release + tof;
+% landed = t_land<=T;
+% tof(~landed) = max(t_land) - t_land(~landed);
 
 r_e_final = r_e_release + v_e_release.*tof + .5.*a_e.*tof.^2;
 
 % r_des = rand(N_t, 3);
-% numer = sum(vecnorm(r_des - r_e, 2, 2), 1);
-% denom = sum(vecnorm(diff(r_des, 1, 1), 2, 2), 1);
-% cost = numer/denom;
-cost = 0;
+r_des_raw = load("robotprint_data.mat");
+r_des = r_des_raw.ri(:,1:N_t)';
+numer = sum(vecnorm(r_des - r_e_final, 2, 2), 1);
+denom = sum(vecnorm(diff(r_des, 1, 1), 2, 2), 1);
+cost = numer/denom;
 
-if 0
-    % part 1
+if plots
+    % part 3
     % final pattern plot (number 2)
     figure;
-    tof = t_land - t_release;
-    landed = tof>0;
-    r_e_x = r_e(:,1);
-    r_e_z = r_e(:,3);
-    landed_scat = scatter(r_e_x(landed), r_e_z(landed), 100, tof(landed), '.');
+%     landed = t_land<=T;
+    r_e_x = r_e_final(:,1);
+    r_e_z = r_e_final(:,3);
+    landed_scat = scatter(r_e_x, r_e_z, 100, tof, '.');
     hold on
     grid on
     c = colorbar;
-    c.Label.String = 'Time of Flight of Landed Droplets (s)';
-    not_landed_scat = scatter(r_e_x(~landed), r_e_z(~landed), 1, 'r','.');
-    grid_scat = scatter(r_p(:,1), r_p(:,3), 5, 'm','o');
+    c.Label.String = 'Time of Flight of Droplets (s)';
+    %     grid_scat = scatter(r_p(:,1), r_p(:,3), 5, 'm','o');
+    r_des_x = r_des(:,1);
+    r_des_z = r_des(:,3);
+    des_scat = scatter(r_des_x, r_des_z, 5, 'ko', 'filled');
     xlabel('X Position (m)')
     ylabel('Z Position (m)')
-    legend([not_landed_scat, grid_scat], 'Droplets in Flight', 'Charges on Substrate')
+    legend([des_scat], 'Desired Droplet Pattern')
     hold off
     
-    % part 2
-    figure;
-    r_e_y = r_e(:,2);
-    r_e_y(landed) = 0;
-    dispenser_scat = scatter3(r_d_time(:,1), r_d_time(:,3), r_d_time(:,2), 10, 'k.');
-    hold on
-    xlabel('X Position (m)')
-    ylabel('Z Position (m)')
-    zlabel('Y Position (m)')
-    dispenser_start_scat = scatter3(r_d_time(1,1), r_d_time(1,3), r_d_time(1,2), 50, 'gx');
-    dispenser_end_scat = scatter3(r_d_time(end,1), r_d_time(end,3), r_d_time(end,2), 50, 'cx');
-    
-    zlim([0, max(r_d_time(:,2))])
-    landed_scat = scatter(r_e_x(landed), r_e_z(landed), 100, tof(landed), '.');
-    not_landed_scat = scatter3(r_e_x(~landed), r_e_z(~landed), r_e_y(~landed), 1, 'r','.');
-    grid_scat = scatter(r_p(:,1), r_p(:,3), 5, 'm','o');
-    legend([dispenser_scat, not_landed_scat, grid_scat, dispenser_start_scat, dispenser_end_scat], 'Dispenser Path', 'Droplets in Flight', 'Charges on Substrate', 'Dispenser Start Point', 'Dispenser End Point')
-    hold off
-    
-    % part 3
-    % part 4
-    % just writing and setting electircal force to 0
+    % part none :/
+%     figure;
+%     r_e_y = r_e_final(:,2);
+%     r_e_y = 0;
+%     dispenser_scat = scatter3(r_d(:,1), r_d(:,3), r_d(:,2), 10, 'k.');
+%     hold on
+%     xlabel('X Position (m)')
+%     ylabel('Z Position (m)')
+%     zlabel('Y Position (m)')
+%     dispenser_start_scat = scatter3(r_d(1,1), r_d(1,3), r_d(1,2), 50, 'gx');
+%     dispenser_end_scat = scatter3(r_d(end,1), r_d(end,3), r_d(end,2), 50, 'cx');
+%     zlim( [0, max( [max(r_e_y), max(r_d(:,2))] )] )
+%     landed_scat = scatter(r_e_x, r_e_z, 100, tof, '.');
+%     r_des_y = r_des(:,2);
+%     des_scat = scatter3(r_des_x, r_des_z, r_des_y, 5, 'mo');
+%     legend([dispenser_scat, des_scat, dispenser_start_scat, dispenser_end_scat], 'Dispenser Path', 'Desired Droplet Pattern', 'Dispenser Start Point', 'Dispenser End Point')
+%     hold off
 end
 end
