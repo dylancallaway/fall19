@@ -101,18 +101,19 @@ if plots
 %     landed = t_land<=T;
     r_e_x = r_e_final(:,1);
     r_e_z = r_e_final(:,3);
-    landed_scat = scatter(r_e_x, r_e_z, 100, tof, '.');
-    hold on
-    grid on
-    c = colorbar;
-    c.Label.String = 'Time of Flight of Droplets (s)';
-    %     grid_scat = scatter(r_p(:,1), r_p(:,3), 5, 'm','o');
     r_des_x = r_des(:,1);
     r_des_z = r_des(:,3);
-    des_scat = scatter(r_des_x, r_des_z, 5, 'ko', 'filled');
+    des_scat = scatter(r_des_x, r_des_z, 25, 'go', 'filled');
+    hold on
+    landed_scat = scatter(r_e_x, r_e_z, 5, 'bo', 'filled');
+    grid on
+%     c = colorbar;
+%     c.Label.String = 'Time of Flight of Droplets (s)';
+    %     grid_scat = scatter(r_p(:,1), r_p(:,3), 5, 'm','o');
+
     xlabel('X Position (m)')
     ylabel('Z Position (m)')
-    legend([des_scat], 'Desired Droplet Pattern')
+    legend('Desired Droplet Pattern', 'Generated Droplet Pattern')
     hold off
     
     % part none :/

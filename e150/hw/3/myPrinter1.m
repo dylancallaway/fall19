@@ -1,4 +1,4 @@
-function [cost] = myPrinter1(theta_dot, delta_v_d, plots)
+function [cost] = myPrinter1(theta_dot, delta_v_d, plots, no_elec)
 t0 = tic;
 
 % init variables defined in problem
@@ -90,6 +90,9 @@ while 1
         F_elec_temp = (q_p.*q_e)./(4.*pi.*epsilon.*dist_mag.^2).*dist; % droplet x point charge x dim
         F_elec_temp = sum(F_elec_temp, 2);
         F_elec = reshape(F_elec_temp, n, 3);
+        if no_elec
+            F_elec = zeros(n, 3);
+        end
         
         % drag force
         Re = 2*R*rho_a*vecnorm(v_f-v_e, 2, 2)/mu_f;
@@ -125,12 +128,12 @@ while 1
             break;
         end
     end
-
+    
     % elapsed time
     t = t + dt;
     n = n + 1;
     m = m + 1;
-
+    
     t1 = toc(t0)
 end
 r_des = rand(N_e, 3);
@@ -140,44 +143,47 @@ cost = numer/denom;
 
 if plots
     % part 1
-    % final pattern plot (number 2)
-    figure;
+    %     figure;
     tof = t_land - t_release;
     landed = tof>0;
     r_e_x = r_e(:,1);
     r_e_z = r_e(:,3);
-    landed_scat = scatter(r_e_x(landed), r_e_z(landed), 100, tof(landed), '.');
+    grid_scat = scatter(r_p(:,1), r_p(:,3), 5, 'm','o', 'filled');
+    if no_elec
+        landed_scat_no_elec = scatter(r_e_x, r_e_z, 50, 'c.');
+    else
+        landed_scat = scatter(r_e_x, r_e_z, 50, 'b.');
+    end
     hold on
     grid on
-    c = colorbar;
-    c.Label.String = 'Time of Flight of Droplets (s)';
-    grid_scat = scatter(r_p(:,1), r_p(:,3), 5, 'm','o', 'filled');
+    %     c = colorbar;
+    %     c.Label.String = 'Time of Flight of Droplets (s)';
     xlabel('X Position (m)')
     ylabel('Z Position (m)')
-    legend([grid_scat], 'Charges on Substrate')
-    hold off
+    %     legend([grid_scat], 'Charges on Substrate')
+    if no_elec
+        legend('Pattern With Electric Force', 'Charges on Substrate', 'Pattern Without Electrical Force')
+    end
+    %     hold off
     
     % part 2
-    figure;
-    r_e_y = r_e(:,2);
-    r_e_y(landed) = 0;
-    dispenser_scat = scatter3(r_d_time(:,1), r_d_time(:,3), r_d_time(:,2), 10, 'k.');
-    hold on
-    grid on
-    c = colorbar;
-    c.Label.String = 'Time of Flight of Droplets (s)';
-    xlabel('X Position (m)')
-    ylabel('Z Position (m)')
-    zlabel('Y Position (m)')
-    dispenser_start_scat = scatter3(r_d_time(1,1), r_d_time(1,3), r_d_time(1,2), 25, 'go', 'filled');
-    dispenser_end_scat = scatter3(r_d_time(end,1), r_d_time(end,3), r_d_time(end,2), 25, 'ro', 'filled');
-    drop_start_scat = scatter3(r_e_x(1), r_e_z(1), r_e_y(1), 50, 'go', 'filled');
-    drop_end_scat = scatter3(r_e_x(end), r_e_z(end), r_e_y(end), 50, 'ro', 'filled');
-%     zlim( [0, max( [max(r_e_y), max(r_d_time(:,2))] )] )
-    landed_scat = scatter(r_e_x, r_e_z, 100, tof, '.');
-    grid_scat = scatter(r_p(:,1), r_p(:,3), 5, 'm','o', 'filled');
-    legend([dispenser_scat, grid_scat, dispenser_start_scat, dispenser_end_scat, drop_start_scat, drop_end_scat], 'Dispenser Path', 'Charges on Substrate', 'Dispenser Start Point', 'Dispenser End Point', 'First Droplet', 'Last Droplet')
-    hold off
+    %     figure;
+    %     r_e_y = r_e(:,2);
+    %     r_e_y(landed) = 0;
+    %     dispenser_scat = scatter3(r_d_time(:,1), r_d_time(:,3), r_d_time(:,2), 10, 'k.');
+    %     hold on
+    %     grid on
+    %     xlabel('X Position (m)')
+    %     ylabel('Z Position (m)')
+    %     zlabel('Y Position (m)')
+    %     dispenser_start_scat = scatter3(r_d_time(1,1), r_d_time(1,3), r_d_time(1,2), 25, 'go', 'filled');
+    %     dispenser_end_scat = scatter3(r_d_time(end,1), r_d_time(end,3), r_d_time(end,2), 25, 'ro', 'filled');
+    %     drop_start_scat = scatter3(r_e_x(1), r_e_z(1), r_e_y(1), 50, 'go', 'filled');
+    %     drop_end_scat = scatter3(r_e_x(end), r_e_z(end), r_e_y(end), 50, 'ro', 'filled');
+    %     landed_scat = scatter(r_e_x, r_e_z, 50, 'b.');
+    %     grid_scat = scatter(r_p(:,1), r_p(:,3), 5, 'm','o', 'filled');
+    %     legend([dispenser_scat, grid_scat, dispenser_start_scat, dispenser_end_scat, landed_scat], 'Dispenser Path', 'Charges on Substrate', 'Start Points', 'End Points', 'Final Droplet Pattern')
+    %     hold off
     
     % part 3
     % part 4
