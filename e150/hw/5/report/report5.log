@@ -1,7 +1,7 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.24)  21 NOV 2019 13:09
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.9.24)  21 NOV 2019 14:43
 entering extended mode
-**./report3.tex
-(report3.tex
+**./report5.tex
+(report5.tex
 LaTeX2e <2018-12-01>
 ("D:\Users\dylan\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\report.cls"
 Document Class: report 2018/09/03 v1.4i Standard LaTeX document class
@@ -230,8 +230,8 @@ Package caption3 Info: TeX engine: e-TeX on input line 64.
 \c@caption@flags=\count121
 \c@ContinuedFloat=\count122
 Package caption Info: float package is loaded.
-) (report3.aux)
-\openout1 = `report3.aux'.
+) (report5.aux)
+\openout1 = `report5.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 4.
 LaTeX Font Info:    ... okay on input line 4.
@@ -324,158 +324,84 @@ Package caption Info: End \AtBeginDocument code.
  [1
 
 {C:/Users/dylan/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-(report3.toc)
+(report5.toc)
 \tf@toc=\write3
-\openout3 = `report3.toc'.
+\openout3 = `report5.toc'.
 
  [1
 
-]
-<arm_geom.png, id=11, 478.78876pt x 300.3722pt>
-File: arm_geom.png Graphic file (type png)
-<use arm_geom.png>
-Package pdftex.def Info: arm_geom.png  used on input line 37.
-(pdftex.def)             Requested size: 292.5pt x 183.50175pt.
- [1 <./arm_geom.png>] [2]
-Overfull \hbox (0.46234pt too wide) detected at line 85
-\OML/cmm/m/it/12 C[] \OT1/cmr/m/n/12 = [] \OML/cmm/m/it/12 ;  Re \OT1/cmr/m/n/1
-2 = []
+] [1]
+Package epstopdf Info: Source file: <2-1.eps>
+(epstopdf)                    date: 2019-11-21 11:46:00
+(epstopdf)                    size: 290351 bytes
+(epstopdf)             Output file: <2-1-eps-converted-to.pdf>
+(epstopdf)                    date: 2019-11-21 11:47:43
+(epstopdf)                    size: 52364 bytes
+(epstopdf)             Command: <epstopdf --outfile=2-1-eps-converted-to.pdf 2-
+1.eps>
+(epstopdf)             \includegraphics on input line 67.
+Package epstopdf Info: Output file is already uptodate.
+
+
+pdfTeX warning: miktex-pdftex.exe (file ./2-1-eps-converted-to.pdf): PDF inclus
+ion: found PDF version <1.7>, but at most version <1.5> allowed
+<2-1-eps-converted-to.pdf, id=23, 421.575pt x 316.18124pt>
+File: 2-1-eps-converted-to.pdf Graphic file (type pdf)
+<use 2-1-eps-converted-to.pdf>
+Package pdftex.def Info: 2-1-eps-converted-to.pdf  used on input line 67.
+(pdftex.def)             Requested size: 292.5pt x 219.37624pt.
+Package epstopdf Info: Source file: <3-1.eps>
+(epstopdf)                    date: 2019-11-21 12:01:02
+(epstopdf)                    size: 1436951 bytes
+(epstopdf)             Output file: <3-1-eps-converted-to.pdf>
+(epstopdf)                    date: 2019-11-21 12:01:06
+(epstopdf)                    size: 236866 bytes
+(epstopdf)             Command: <epstopdf --outfile=3-1-eps-converted-to.pdf 3-
+1.eps>
+(epstopdf)             \includegraphics on input line 74.
+Package epstopdf Info: Output file is already uptodate.
+
+
+pdfTeX warning: miktex-pdftex.exe (file ./3-1-eps-converted-to.pdf): PDF inclus
+ion: found PDF version <1.7>, but at most version <1.5> allowed
+<3-1-eps-converted-to.pdf, id=24, 1170.3725pt x 294.09875pt>
+File: 3-1-eps-converted-to.pdf Graphic file (type pdf)
+<use 3-1-eps-converted-to.pdf>
+Package pdftex.def Info: 3-1-eps-converted-to.pdf  used on input line 74.
+(pdftex.def)             Requested size: 467.99881pt x 117.6015pt.
+
+Overfull \hbox (77.99881pt too wide) in paragraph at lines 74--75
+ [] 
  []
 
-[3]
-Package epstopdf Info: Source file: <part1_2.eps>
-(epstopdf)                    date: 2019-10-23 14:03:22
-(epstopdf)                    size: 296697 bytes
-(epstopdf)             Output file: <part1_2-eps-converted-to.pdf>
-(epstopdf)                    date: 2019-10-23 14:21:58
-(epstopdf)                    size: 197053 bytes
-(epstopdf)             Command: <epstopdf --outfile=part1_2-eps-converted-to.pd
-f part1_2.eps>
-(epstopdf)             \includegraphics on input line 111.
-Package epstopdf Info: Output file is already uptodate.
-
-
-pdfTeX warning: miktex-pdftex.exe (file ./part1_2-eps-converted-to.pdf): PDF in
-clusion: found PDF version <1.7>, but at most version <1.5> allowed
-<part1_2-eps-converted-to.pdf, id=31, 421.575pt x 316.18124pt>
-File: part1_2-eps-converted-to.pdf Graphic file (type pdf)
-<use part1_2-eps-converted-to.pdf>
-Package pdftex.def Info: part1_2-eps-converted-to.pdf  used on input line 111.
-(pdftex.def)             Requested size: 292.5pt x 219.37624pt.
-Package epstopdf Info: Source file: <part1_3.eps>
-(epstopdf)                    date: 2019-10-23 14:03:16
-(epstopdf)                    size: 64916 bytes
-(epstopdf)             Output file: <part1_3-eps-converted-to.pdf>
-(epstopdf)                    date: 2019-10-24 11:27:05
-(epstopdf)                    size: 58113 bytes
-(epstopdf)             Command: <epstopdf --outfile=part1_3-eps-converted-to.pd
-f part1_3.eps>
-(epstopdf)             \includegraphics on input line 117.
-Package epstopdf Info: Output file is already uptodate.
-
-
-pdfTeX warning: miktex-pdftex.exe (file ./part1_3-eps-converted-to.pdf): PDF in
-clusion: found PDF version <1.7>, but at most version <1.5> allowed
-<part1_3-eps-converted-to.pdf, id=32, 421.575pt x 316.18124pt>
-File: part1_3-eps-converted-to.pdf Graphic file (type pdf)
-<use part1_3-eps-converted-to.pdf>
-Package pdftex.def Info: part1_3-eps-converted-to.pdf  used on input line 117.
-(pdftex.def)             Requested size: 292.5pt x 219.37624pt.
-[4 <./part1_2-eps-converted-to.pdf>]
-Package epstopdf Info: Source file: <part1_5.eps>
-(epstopdf)                    date: 2019-10-23 14:13:24
-(epstopdf)                    size: 959495 bytes
-(epstopdf)             Output file: <part1_5-eps-converted-to.pdf>
-(epstopdf)                    date: 2019-10-24 11:37:18
-(epstopdf)                    size: 753948 bytes
-(epstopdf)             Command: <epstopdf --outfile=part1_5-eps-converted-to.pd
-f part1_5.eps>
-(epstopdf)             \includegraphics on input line 124.
-Package epstopdf Info: Output file is already uptodate.
-
-
-pdfTeX warning: miktex-pdftex.exe (file ./part1_5-eps-converted-to.pdf): PDF in
-clusion: found PDF version <1.7>, but at most version <1.5> allowed
-<part1_5-eps-converted-to.pdf, id=42, 421.575pt x 316.18124pt>
-File: part1_5-eps-converted-to.pdf Graphic file (type pdf)
-<use part1_5-eps-converted-to.pdf>
-Package pdftex.def Info: part1_5-eps-converted-to.pdf  used on input line 124.
-(pdftex.def)             Requested size: 292.5pt x 219.37624pt.
-[5 <./part1_3-eps-converted-to.pdf>]
-Overfull \hbox (5.34868pt too wide) in paragraph at lines 130--131
-[]\OT1/cmr/m/n/12 First, be-cause the droplets and grid of point charges are op
--po-sitely charged,
- []
-
-[6 <./part1_5-eps-converted-to.pdf>]
-Package epstopdf Info: Source file: <part2_3.eps>
-(epstopdf)                    date: 2019-10-23 14:52:08
-(epstopdf)                    size: 477385 bytes
-(epstopdf)             Output file: <part2_3-eps-converted-to.pdf>
-(epstopdf)                    date: 2019-10-24 12:21:09
-(epstopdf)                    size: 384570 bytes
-(epstopdf)             Command: <epstopdf --outfile=part2_3-eps-converted-to.pd
-f part2_3.eps>
-(epstopdf)             \includegraphics on input line 140.
-Package epstopdf Info: Output file is already uptodate.
-
-
-pdfTeX warning: miktex-pdftex.exe (file ./part2_3-eps-converted-to.pdf): PDF in
-clusion: found PDF version <1.7>, but at most version <1.5> allowed
-<part2_3-eps-converted-to.pdf, id=61, 421.575pt x 316.18124pt>
-File: part2_3-eps-converted-to.pdf Graphic file (type pdf)
-<use part2_3-eps-converted-to.pdf>
-Package pdftex.def Info: part2_3-eps-converted-to.pdf  used on input line 140.
-(pdftex.def)             Requested size: 292.5pt x 219.37624pt.
-[7 <./part2_3-eps-converted-to.pdf>]
-Package epstopdf Info: Source file: <part2_4.eps>
-(epstopdf)                    date: 2019-10-23 14:52:40
-(epstopdf)                    size: 23255 bytes
-(epstopdf)             Output file: <part2_4-eps-converted-to.pdf>
-(epstopdf)                    date: 2019-10-24 12:39:05
-(epstopdf)                    size: 8069 bytes
-(epstopdf)             Command: <epstopdf --outfile=part2_4-eps-converted-to.pd
-f part2_4.eps>
-(epstopdf)             \includegraphics on input line 174.
-Package epstopdf Info: Output file is already uptodate.
-
-
-pdfTeX warning: miktex-pdftex.exe (file ./part2_4-eps-converted-to.pdf): PDF in
-clusion: found PDF version <1.7>, but at most version <1.5> allowed
-<part2_4-eps-converted-to.pdf, id=71, 421.575pt x 316.18124pt>
-File: part2_4-eps-converted-to.pdf Graphic file (type pdf)
-<use part2_4-eps-converted-to.pdf>
-Package pdftex.def Info: part2_4-eps-converted-to.pdf  used on input line 174.
-(pdftex.def)             Requested size: 292.5pt x 219.37624pt.
-[8 <./part2_4-eps-converted-to.pdf>] [9] (report3.aux) ) 
+[2 <./2-1-eps-converted-to.pdf>] [3 <./3-1-eps-converted-to.pdf>] [4]
+(report5.aux) ) 
 Here is how much of TeX's memory you used:
- 3835 strings out of 492895
- 59293 string characters out of 3123735
- 139118 words of memory out of 3000000
- 7697 multiletter control sequences out of 15000+200000
+ 3814 strings out of 492895
+ 58672 string characters out of 3123735
+ 143118 words of memory out of 3000000
+ 7681 multiletter control sequences out of 15000+200000
  16598 words of font info for 58 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,9n,39p,698b,404s stack positions out of 5000i,500n,10000p,200000b,50000s
-<D:/Users/dylan/AppData
-/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><D:/Users/
-dylan/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.p
-fb><D:/Users/dylan/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfont
-s/cm/cmmi12.pfb><D:/Users/dylan/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/p
-ublic/amsfonts/cm/cmmi6.pfb><D:/Users/dylan/AppData/Local/Programs/MiKTeX 2.9/f
-onts/type1/public/amsfonts/cm/cmmi8.pfb><D:/Users/dylan/AppData/Local/Programs/
-MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmib10.pfb><D:/Users/dylan/AppData/L
-ocal/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><D:/Users/dyl
-an/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><
-D:/Users/dylan/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
-/cmr17.pfb><D:/Users/dylan/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public
-/amsfonts/cm/cmr6.pfb><D:/Users/dylan/AppData/Local/Programs/MiKTeX 2.9/fonts/t
-ype1/public/amsfonts/cm/cmr7.pfb><D:/Users/dylan/AppData/Local/Programs/MiKTeX 
-2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><D:/Users/dylan/AppData/Local/Progr
-ams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><D:/Users/dylan/AppDat
-a/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy6.pfb>
-Output written on report3.pdf (11 pages, 1627997 bytes).
+ 41i,10n,39p,510b,317s stack positions out of 5000i,500n,10000p,200000b,50000s
+<D:/Users/dylan/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pu
+blic/amsfonts/cm/cmbx12.pfb><D:/Users/dylan/AppData/Local/Programs/MiKTeX 2.9/f
+onts/type1/public/amsfonts/cm/cmmi12.pfb><D:/Users/dylan/AppData/Local/Programs
+/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><D:/Users/dylan/AppData/Lo
+cal/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><D:/Users/dyla
+n/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><D
+:/Users/dylan/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/
+cmr12.pfb><D:/Users/dylan/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/
+amsfonts/cm/cmr17.pfb><D:/Users/dylan/AppData/Local/Programs/MiKTeX 2.9/fonts/t
+ype1/public/amsfonts/cm/cmr6.pfb><D:/Users/dylan/AppData/Local/Programs/MiKTeX 
+2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><D:/Users/dylan/AppData/Local/Progr
+ams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><D:/Users/dylan/AppData/
+Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><D:/Users/d
+ylan/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb
+>
+Output written on report5.pdf (6 pages, 424887 bytes).
 PDF statistics:
- 127 PDF objects out of 1000 (max. 8388607)
+ 81 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 31 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 11 words of extra memory for PDF output out of 10000 (max. 10000000)
 

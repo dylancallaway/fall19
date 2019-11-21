@@ -87,7 +87,7 @@ for i = 1:4
     fprintf("%d & ", i);
     fprintf("%.3f & ", PI(100, i))
     for j = 1:15
-   fprintf("%.3f & ", Lambda(i, j))
+        fprintf("%.3f & ", Lambda(i, j))
     end
     fprintf("\n")
 end

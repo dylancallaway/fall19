@@ -1,6 +1,6 @@
 function [test] = myPrinter1(plots)
 % variable glossary for part 1
-mu_fo = 0.001; % viscosity of fluid
+mu_f0 = 0.001; % viscosity of fluid
 sigma_f0 = 0.617;
 sigma_p0 = 0.13;
 rho_f0 = 2000;
@@ -31,7 +31,7 @@ phi = 0.5;
 for v_2 = v_2_all
     % other inits
     theta = theta_0;
-    J_all = [];
+    I_all = [];
     t = 0;
     t_all = [];
     dp_dx_all = [];
@@ -41,7 +41,7 @@ for v_2 = v_2_all
     v_f = 1 - v_p;
     while t <= T
         % viscosity at temperature
-        mu_f = mu_fo.*exp(-k1.*(theta-theta_0)./theta_0);
+        mu_f = mu_f0.*exp(-k1.*(theta-theta_0)./theta_0);
         
         % conductivity of fluid at temp
         sigma_f = sigma_f0.*exp(-k2.*(theta-theta_0)./theta_0);
@@ -74,7 +74,7 @@ for v_2 = v_2_all
         
         % pressure gradient
         C = 2.*mu_star.*(q+2)/pi/R.^4;
-        dp_dx = C.*Q;
+        dp_dx = -C.*Q;
         dp_dx_all = [dp_dx_all, dp_dx];
         
         % effective heat capacity
@@ -90,7 +90,8 @@ for v_2 = v_2_all
         S = h.*(theta-theta_a)./R;
         % current
         J = sqrt( (sigma_star/a).*( (rho_star.*C_star.*(next_theta-theta)./dt) + S ) );
-        J_all = [J_all, J];
+        I = J*pi*R^2;
+        I_all = [I_all, I];
         
         % increment time
         t = t + dt;
@@ -100,7 +101,7 @@ for v_2 = v_2_all
     if plots
         % part 1, 6
         figure(1)
-        plot(t_all, J_all)
+        plot(t_all, I_all)
         xlabel('Time (s)')
         ylabel('Current Through Mixture (A)')
         hold on

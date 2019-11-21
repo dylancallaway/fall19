@@ -4,4 +4,4 @@ close all
 clear
 clc
 
-[test] = myPrinter1(1)
+[test] = myPrinter2(1)
